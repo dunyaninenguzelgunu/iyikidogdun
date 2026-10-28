@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İyi ki Doğdun ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<script>
+/* ============================================================
+   ✏️  SADECE BURAYI DÜZENLE
+   ============================================================ */
+const AYAR = {
+  isim: "Atiyem",                         // Sevgilinin adı
+  // 🎵 Arka plan şarkısı: YouTube linkini yapıştır (ör. "https://www.youtube.com/watch?v=XXXXXXXXXXX")
+  sarki_youtube: "https://www.youtube.com/watch?v=i9OqUDR-Y9g",
+  // ...ya da YouTube yerine mp3 kullanmak istersen dosyayı index.html'in yanına koyup adını yaz (ör. "sarki.mp3")
+  sarki_dosya: "",
+  tanisma_tarihi: "2022-02-17T00:00:00",  // Tanıştığınız tarih (YYYY-AA-GGTSS:DD:SS)
+  siir: `Aşinâydık, yâr olduk; ne acâib bir kudret,
+Tek nazarla görmedim seni, dilimde kaldı hasret.
+İki cihân arasında yanar gönül, ey nâzenîn sûret,
+Yıllar sürse bu firkat, bitmez sevdâya gayret,
+Ermek nasip olur elbet vuslata, ey gönül sabret.`,
+  mektup: `🚨🚨🚨dünyanın en güzel günü alarmı🚨🚨🚨
+
+Atişimm canımın içi doğum günün kutlu olsunnnn... iyi ki doğmuşsun iyi ki seni tanımışım hayatımda tanıdığım ennn mükemmel insansın seninle alakalı her şeye iyi ki diyorum her şeye.. sadece ben değil tanıdığın her insan için çok kıymetli birisin bu her zaman böyle olacak.
+
+bugün tam 29 sene oldu kel kafalı salak olarak doğalı bebişliğini düşünmek bile çok komik allahım boksçu fotoğrafın geliyo hep gözümün önüne küçücüksün off... kutladığım ilk doğum günün de aklımda daha 25 yaşına giriyodun bebis kadardın gözümün önünde büyüyosun resmen gözlerim doldu git..
+
+annisle ablanlarla yeğenlerinle arkadaşlarınla öğrencilerinle hayatındaki herkesle doya doya kutla bugünü varlığın hayatta kutlamaya değer en güzel şey. inşallah bu sene seni mutlu edecek her şey birer birer gerçekleşir her günün mutluluktan ağlayarak geçer canım benimm sevdiklerinle musmutlu huzurlu nice yaşların olsun inşallah
+
+seni çok seviyorum iyi ki varsın iyi ki tanıdım seni iyi ki atisim oldun. 29. yaşın kutlu olsunnnn ama abim bin yaşına da gelse taş taş taş taş`,
+  // fotograflar/ klasöründeki foto01.jpg ... foto81.jpg
+  fotograflar: Array.from({length: 81}, (_, i) => `fotograflar/foto${String(i + 1).padStart(2, '0')}.jpg`)
+};
+</script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--pink:#ff4d8d;--pink2:#ff8fb8;--deep:#2a0a1f;--cream:#fff5f8}
+  html{scroll-behavior:smooth}
+  body{font-family:'Poppins',sans-serif;background:linear-gradient(160deg,#2a0a1f 0%,#5a1240 50%,#8a1d55 100%);background-attachment:fixed;color:var(--cream);overflow-x:hidden;min-height:100vh}
+  h1,h2,.script{font-family:'Dancing Script',cursive}
+  section{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;position:relative;z-index:2}
+  #hearts,#confetti{position:fixed;inset:0;pointer-events:none;z-index:1}
+  #confetti{z-index:50}
+
+  /* Giriş */
+  #intro{position:fixed;inset:0;z-index:100;background:radial-gradient(circle,#5a1240,#1a0512);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;transition:opacity 1s,visibility 1s;text-align:center;padding:20px}
+  #intro.gizli{opacity:0;visibility:hidden}
+  .zarf{font-size:110px;animation:salla 2s ease-in-out infinite;cursor:pointer;filter:drop-shadow(0 0 30px var(--pink))}
+  @keyframes salla{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(6deg) scale(1.08)}}
+  #intro p{font-size:1.3rem;opacity:.9}
+  .btn{background:linear-gradient(135deg,var(--pink),#ff7a59);border:none;color:#fff;font-family:inherit;font-size:1.1rem;font-weight:600;padding:16px 38px;border-radius:50px;cursor:pointer;box-shadow:0 10px 30px rgba(255,77,141,.5);transition:transform .2s}
+  .btn:hover{transform:translateY(-3px) scale(1.04)}
+
+  /* Hero */
+  .hero h1{font-size:clamp(3rem,10vw,7rem);text-align:center;line-height:1.1;background:linear-gradient(90deg,#fff,var(--pink2),#ffd36e,#fff);background-size:300%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:parla 6s linear infinite}
+  @keyframes parla{to{background-position:300%}}
+  .hero .isim{display:block;font-size:1.2em}
+  .hero .alt{margin-top:20px;font-size:1.2rem;opacity:.85;text-align:center}
+  .asagi{position:absolute;bottom:30px;font-size:2rem;animation:zipla 1.5s infinite;text-decoration:none}
+  @keyframes zipla{50%{transform:translateY(12px)}}
+
+  h2{font-size:clamp(2.4rem,6vw,3.8rem);margin-bottom:40px;text-align:center;color:var(--pink2)}
+
+  /* Sayaç */
+  .sayac{display:flex;flex-wrap:wrap;gap:18px;justify-content:center}
+  .kutu{background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:24px 20px;min-width:120px;text-align:center}
+  .kutu b{display:block;font-size:2.6rem;font-weight:600;color:#fff}
+  .kutu span{font-size:.9rem;opacity:.75;text-transform:uppercase;letter-spacing:2px}
+
+  /* Mektup */
+  .mektup{max-width:680px;width:100%;background:var(--cream);color:#5a1240;border-radius:16px;padding:44px 36px;box-shadow:0 30px 60px rgba(0,0,0,.4);position:relative}
+  .mektup::before{content:"💌";position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-size:52px}
+  .siir{font-family:'Dancing Script',cursive;font-size:1.55rem;line-height:1.7;white-space:pre-line;text-align:center;font-style:italic;padding-bottom:24px;margin-bottom:24px;border-bottom:2px dashed #f4a6c4}
+  #mektupYazi{font-size:1.05rem;line-height:1.75;white-space:pre-line;min-height:200px}
+  .imza{text-align:right;margin-top:24px;font-family:'Dancing Script',cursive;font-size:1.5rem;opacity:0;transition:opacity 1s}
+
+  /* Nedenler */
+  .kartlar{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:960px;width:100%}
+  .kart{height:180px;perspective:1000px;cursor:pointer}
+  .ic{position:relative;width:100%;height:100%;transition:transform .7s;transform-style:preserve-3d}
+  .kart.acik .ic{transform:rotateY(180deg)}
+  .yuz{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center}
+  .on{background:linear-gradient(135deg,var(--pink),#b52a6e);font-size:3rem;box-shadow:0 10px 25px rgba(0,0,0,.3)}
+  .on small{position:absolute;bottom:14px;font-size:.8rem;opacity:.8}
+  .arka{background:var(--cream);color:#8a1d55;transform:rotateY(180deg);font-weight:600;font-size:1.05rem}
+
+  /* Galeri */
+  .galeri{columns:3 240px;column-gap:16px;max-width:1000px;width:100%}
+  .galeri img{width:100%;margin-bottom:16px;border-radius:14px;border:5px solid #fff;box-shadow:0 10px 25px rgba(0,0,0,.4);transition:transform .3s;break-inside:avoid}
+  .galeri img:nth-child(odd){transform:rotate(-2deg)}
+  .galeri img:nth-child(even){transform:rotate(2deg)}
+  .galeri img:hover{transform:rotate(0) scale(1.04)}
+
+  /* Pasta */
+  .pasta{position:relative;width:240px;height:220px;margin:40px auto 30px}
+  .kat{position:absolute;left:50%;transform:translateX(-50%);border-radius:14px}
+  .k1{bottom:0;width:240px;height:90px;background:#f4a6c4;box-shadow:inset 0 -10px 0 #e07aa3}
+  .k2{bottom:80px;width:180px;height:70px;background:#ffd1e1;box-shadow:inset 0 -8px 0 #f4a6c4}
+  .krema{position:absolute;top:0;left:0;right:0;height:18px;background:#fff;border-radius:14px 14px 50% 50%}
+  .mumlar{position:absolute;bottom:150px;left:50%;transform:translateX(-50%);display:flex;gap:26px}
+  .mum{width:12px;height:44px;background:repeating-linear-gradient(45deg,#fff 0 6px,var(--pink) 6px 12px);border-radius:3px;position:relative}
+  .alev{position:absolute;top:-26px;left:50%;width:14px;height:22px;margin-left:-7px;background:radial-gradient(circle at 50% 70%,#fff6a0,#ffb300 50%,#ff5a00);border-radius:50% 50% 50% 50%/60% 60% 40% 40%;animation:titre .15s infinite alternate;box-shadow:0 0 20px 6px rgba(255,190,0,.6);transition:opacity .4s}
+  @keyframes titre{to{transform:scale(1.1) rotate(3deg)}}
+  .sondu .alev{opacity:0}
+  #sonMesaj{font-size:clamp(2rem,6vw,3.4rem);text-align:center;opacity:0;transform:scale(.8);transition:all 1s;margin-top:20px}
+  #sonMesaj.goster{opacity:1;transform:scale(1)}
+
+  .gorun{opacity:0;transform:translateY(40px);transition:all 1s}
+  .gorun.aktif{opacity:1;transform:none}
+  #muzikBtn{position:fixed;bottom:20px;right:20px;z-index:60;width:54px;height:54px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--pink),#ff7a59);color:#fff;font-size:1.5rem;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.4);display:none}
+  #muzikBtn.caliyor{animation:nabiz 1.2s infinite}
+  @keyframes nabiz{50%{transform:scale(1.12)}}
+  #yt{position:fixed;width:1px;height:1px;left:-10px;top:-10px;opacity:0;pointer-events:none}
+  footer{text-align:center;padding:30px;opacity:.6;position:relative;z-index:2}
+</style>
+</head>
+<body>
+
+<canvas id="hearts"></canvas>
+<canvas id="confetti"></canvas>
+<div id="yt"></div>
+<button id="muzikBtn" onclick="muzikDegistir()" title="Müzik">🎵</button>
+
+<div id="intro">
+  <div class="zarf" onclick="basla()">💌</div>
+  <p>Sana küçük bir sürprizim var...</p>
+  <button class="btn" onclick="basla()">Aç 💝</button>
+</div>
+
+<section class="hero" id="giris">
+  <h1>İyi ki Doğdun<span class="isim" data-isim></span></h1>
+  <p class="alt">29. yaşın kutlu olsun canımın içi 🎂✨</p>
+  <a href="#zaman" class="asagi">👇</a>
+</section>
+
+<section id="zaman" class="gorun">
+  <h2>Seninle geçen her an ⏳</h2>
+  <div class="sayac">
+    <div class="kutu"><b id="gun">0</b><span>Gün</span></div>
+    <div class="kutu"><b id="saat">0</b><span>Saat</span></div>
+    <div class="kutu"><b id="dk">0</b><span>Dakika</span></div>
+    <div class="kutu"><b id="sn">0</b><span>Saniye</span></div>
+  </div>
+  <p style="margin-top:30px;opacity:.8;text-align:center">...ve her saniyesi çok değerli ❤️</p>
+</section>
+
+<section id="mektupBolum" class="gorun">
+  <h2>Sana bir mektup</h2>
+  <div class="mektup">
+    <div class="siir" id="siir"></div>
+    <div id="mektupYazi"></div>
+    <div class="imza" id="imza">❤️</div>
+  </div>
+</section>
+
+<section class="gorun" id="galeriBolum">
+  <h2>Bizim anılarımız 📸</h2>
+  <div class="galeri" id="galeri"></div>
+</section>
+
+<section class="gorun">
+  <h2>Bir dilek tut ve mumları üfle 🎂</h2>
+  <div class="pasta" id="pasta">
+    <div class="mumlar"><div class="mum"><div class="alev"></div></div><div class="mum"><div class="alev"></div></div><div class="mum"><div class="alev"></div></div></div>
+    <div class="kat k2"><div class="krema"></div></div>
+    <div class="kat k1"><div class="krema"></div></div>
+  </div>
+  <button class="btn" id="ufle" onclick="ufle()">Üfle 🌬️</button>
+  <div id="sonMesaj" class="script">Seni Seviyorum <span data-isim></span> ❤️</div>
+</section>
+
+<footer>Sonsuza kadar seninle 💕</footer>
+
+<script>
+document.querySelectorAll('[data-isim]').forEach(e => e.textContent = AYAR.isim);
+document.getElementById('siir').textContent = AYAR.siir;
+
+// Uçan kalpler
+const hc = document.getElementById('hearts'), hx = hc.getContext('2d');
+let kalpler = [];
+function boyut(){ hc.width = cc.width = innerWidth; hc.height = cc.height = innerHeight; }
+function yeniKalp(){ return {x:Math.random()*hc.width, y:hc.height+20, s:10+Math.random()*18, v:.4+Math.random()*1.2, a:.15+Math.random()*.4, w:Math.random()*6.28}; }
+function kalpCiz(){
+  hx.clearRect(0,0,hc.width,hc.height);
+  if (kalpler.length < 35 && Math.random() < .1) kalpler.push(yeniKalp());
+  kalpler.forEach(k => {
+    k.y -= k.v; k.w += .02;
+    hx.globalAlpha = k.a; hx.font = k.s + 'px serif';
+    hx.fillText('❤', k.x + Math.sin(k.w)*20, k.y);
+  });
+  kalpler = kalpler.filter(k => k.y > -30);
+  requestAnimationFrame(kalpCiz);
+}
+
+// Konfeti
+const cc = document.getElementById('confetti'), cx = cc.getContext('2d');
+let parcalar = [];
+const renkler = ['#ff4d8d','#ffd36e','#ffffff','#ff8fb8','#7ee8fa','#b388ff'];
+function konfeti(n=180){
+  for (let i=0;i<n;i++) parcalar.push({x:cc.width/2, y:cc.height/2, vx:(Math.random()-.5)*18, vy:Math.random()*-18-4, r:4+Math.random()*6, c:renkler[i%renkler.length], rot:Math.random()*6, ömür:180});
+}
+function konfetiCiz(){
+  cx.clearRect(0,0,cc.width,cc.height);
+  parcalar.forEach(p => {
+    p.vy += .35; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.rot += .2; p.ömür--;
+    cx.save(); cx.translate(p.x,p.y); cx.rotate(p.rot); cx.fillStyle = p.c;
+    cx.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.6); cx.restore();
+  });
+  parcalar = parcalar.filter(p => p.ömür > 0 && p.y < cc.height+20);
+  requestAnimationFrame(konfetiCiz);
+}
+boyut(); addEventListener('resize', boyut);
+kalpCiz(); konfetiCiz();
+
+// Müzik (YouTube veya mp3) — tarayıcılar sesi ancak bir tıklamadan sonra başlatır, o yüzden "Aç" ile başlıyor
+const ytId = (AYAR.sarki_youtube.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/) || [])[1]
+          || (/^[\w-]{11}$/.test(AYAR.sarki_youtube) ? AYAR.sarki_youtube : null);
+let ytPlayer = null, ytHazir = false, calsin = false, caliyor = false, ses = null;
+if (ytId){
+  const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
+  window.onYouTubeIframeAPIReady = () => {
+    ytPlayer = new YT.Player('yt', {width:1, height:1, videoId:ytId,
+      playerVars:{autoplay:0, loop:1, playlist:ytId, controls:0, playsinline:1},
+      events:{onReady:() => { ytHazir = true; ytPlayer.setVolume(70); if (calsin) muzikCal(); }}});
+  };
+} else if (AYAR.sarki_dosya){
+  ses = new Audio(AYAR.sarki_dosya); ses.loop = true; ses.volume = .7;
+}
+function muzikCal(){
+  if (ytPlayer && ytHazir) ytPlayer.playVideo(); else if (ses) ses.play().catch(()=>{}); else return;
+  caliyor = true; document.getElementById('muzikBtn').classList.add('caliyor');
+}
+function muzikDurdur(){
+  if (ytPlayer && ytHazir) ytPlayer.pauseVideo(); else if (ses) ses.pause();
+  caliyor = false; document.getElementById('muzikBtn').classList.remove('caliyor');
+}
+function muzikDegistir(){ caliyor ? muzikDurdur() : muzikCal(); }
+
+function basla(){
+  document.getElementById('intro').classList.add('gizli');
+  konfeti(250);
+  if (ytId || ses){ document.getElementById('muzikBtn').style.display = 'block'; calsin = true; muzikCal(); }
+}
+
+// Sayaç
+const t0 = new Date(AYAR.tanisma_tarihi);
+function sayacGuncelle(){
+  let f = Math.max(0, Date.now() - t0) / 1000;
+  document.getElementById('gun').textContent = Math.floor(f/86400).toLocaleString('tr-TR');
+  document.getElementById('saat').textContent = Math.floor(f%86400/3600);
+  document.getElementById('dk').textContent = Math.floor(f%3600/60);
+  document.getElementById('sn').textContent = Math.floor(f%60);
+}
+sayacGuncelle(); setInterval(sayacGuncelle, 1000);
+
+// Mektup daktilo efekti
+let yazildi = false;
+function mektubuYaz(){
+  if (yazildi) return; yazildi = true;
+  const el = document.getElementById('mektupYazi'); let i = 0;
+  (function harf(){
+    el.textContent = AYAR.mektup.slice(0, ++i);
+    if (i < AYAR.mektup.length) setTimeout(harf, 14);
+    else document.getElementById('imza').style.opacity = 1;
+  })();
+}
+
+// Galeri (bulunamayan fotoğraflar gizlenir)
+const galeri = document.getElementById('galeri');
+AYAR.fotograflar.forEach(src => {
+  const img = new Image(); img.loading = 'lazy'; img.src = src; img.alt = '';
+  img.onerror = () => { img.remove(); if (!galeri.children.length) document.getElementById('galeriBolum').style.display = 'none'; };
+  galeri.appendChild(img);
+});
+
+// Mumları üfle
+function ufle(){
+  document.getElementById('pasta').classList.add('sondu');
+  document.getElementById('ufle').style.display = 'none';
+  setTimeout(() => { konfeti(300); document.getElementById('sonMesaj').classList.add('goster'); }, 400);
+  setTimeout(() => konfeti(200), 1400);
+}
+
+// Kaydırınca görünme
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting){ e.target.classList.add('aktif'); if (e.target.id === 'mektupBolum') mektubuYaz(); }
+}), {threshold:0, rootMargin:'0px 0px -20% 0px'});
+document.querySelectorAll('.gorun').forEach(s => io.observe(s));
+</script>
+</body>
+</html>
