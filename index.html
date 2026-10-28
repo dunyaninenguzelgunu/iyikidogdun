@@ -144,7 +144,7 @@ seni çok seviyorum iyi ki varsın iyi ki tanıdım seni iyi ki atisim oldun. 29
 <canvas id="hearts"></canvas>
 <canvas id="confetti"></canvas>
 <div id="yt"></div>
-<button id="muzikBtn" onclick="muzikDegistir()" title="Müzik">🎵</button>
+<button id="muzikBtn" onclick="muzikDegistir(event)" onpointerdown="event.stopPropagation()" title="Müzik">🎵</button>
 
 <div id="intro">
   <div class="zarf" onclick="basla()">💌</div>
@@ -207,7 +207,6 @@ seni çok seviyorum iyi ki varsın iyi ki tanıdım seni iyi ki atisim oldun. 29
   <div id="sonMesaj" class="script">Seni Seviyorum <span data-isim></span> ❤️</div>
 </section>
 
-<footer>Sonsuza kadar seninle 💕</footer>
 
 <script>
 document.querySelectorAll('[data-isim]').forEach(e => e.textContent = AYAR.isim);
@@ -250,25 +249,32 @@ function konfetiCiz(){
 boyut(); addEventListener('resize', boyut);
 kalpCiz(); konfetiCiz();
 
-// Müzik (YouTube veya mp3) — tarayıcılar sesi ancak bir tıklamadan sonra başlatır, o yüzden "Aç" ile başlıyor
+// Müzik (YouTube veya mp3) — sayfa açılır açılmaz çalmayı dener; tarayıcı izin vermezse ilk dokunuşta başlar
 const ytId = (AYAR.sarki_youtube.match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/) || [])[1]
           || (/^[\w-]{11}$/.test(AYAR.sarki_youtube) ? AYAR.sarki_youtube : null);
-let ytPlayer = null, ytHazir = false, calsin = false, caliyor = false, ses = null;
+let ytPlayer = null, ytHazir = false, caliyor = false, kullaniciDurdurdu = false, ses = null;
+function caliyorAyarla(d){ caliyor = d; document.getElementById('muzikBtn').classList.toggle('caliyor', d); if (d) sarkiBildir(); }
 if (ytId){
   const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
   window.onYouTubeIframeAPIReady = () => {
     ytPlayer = new YT.Player('yt', {width:1, height:1, videoId:ytId,
-      playerVars:{autoplay:0, loop:1, playlist:ytId, controls:0, playsinline:1},
-      events:{onReady:() => { ytHazir = true; ytPlayer.setVolume(70); if (calsin) muzikCal(); },
-              onStateChange:e => { if (e.data === YT.PlayerState.PLAYING) sarkiBildir(); }}});
+      playerVars:{autoplay:1, loop:1, playlist:ytId, controls:0, playsinline:1},
+      events:{onReady:() => { ytHazir = true; ytPlayer.setVolume(70); ytPlayer.unMute(); if (!kullaniciDurdurdu) muzikCal(); },
+              onStateChange:e => caliyorAyarla(e.data === YT.PlayerState.PLAYING)}});
   };
 } else if (AYAR.sarki_dosya){
   ses = new Audio(AYAR.sarki_dosya); ses.loop = true; ses.volume = .7;
+  ses.addEventListener('playing', () => caliyorAyarla(true));
+  ses.addEventListener('pause', () => caliyorAyarla(false));
+  ses.play().catch(()=>{});
 }
+if (ytId || ses) document.getElementById('muzikBtn').style.display = 'block';
 function muzikCal(){
-  if (ytPlayer && ytHazir) ytPlayer.playVideo(); else if (ses) ses.play().catch(()=>{}); else return;
-  caliyor = true; document.getElementById('muzikBtn').classList.add('caliyor');
+  if (ytPlayer && ytHazir){ ytPlayer.unMute(); ytPlayer.playVideo(); } else if (ses) ses.play().catch(()=>{});
 }
+// Tarayıcı otomatik çalmayı engellediyse: sayfada herhangi bir yere ilk dokunuşta başlat
+['pointerdown','touchend','click','keydown','scroll'].forEach(ev =>
+  addEventListener(ev, () => { if (!caliyor && !kullaniciDurdurdu) muzikCal(); }, {passive:true}));
 // Şarkı gerçekten çalmaya başladığında (ilk seferde) üstte bildirim göster
 let bildirildi = false;
 function sarkiBildir(){
@@ -277,17 +283,18 @@ function sarkiBildir(){
   setTimeout(() => bilgi.classList.add('goster'), 800);
   setTimeout(() => bilgi.classList.remove('goster'), 8000);
 }
-if (ses) ses.addEventListener('playing', sarkiBildir);
 function muzikDurdur(){
   if (ytPlayer && ytHazir) ytPlayer.pauseVideo(); else if (ses) ses.pause();
-  caliyor = false; document.getElementById('muzikBtn').classList.remove('caliyor');
 }
-function muzikDegistir(){ caliyor ? muzikDurdur() : muzikCal(); }
+function muzikDegistir(e){
+  e.stopPropagation();
+  if (caliyor){ kullaniciDurdurdu = true; muzikDurdur(); } else { kullaniciDurdurdu = false; muzikCal(); }
+}
 
 function basla(){
   document.getElementById('intro').classList.add('gizli');
   konfeti(250);
-  if (ytId || ses){ document.getElementById('muzikBtn').style.display = 'block'; calsin = true; muzikCal(); }
+  if (!caliyor && !kullaniciDurdurdu) muzikCal();
 }
 
 // Sayaç
