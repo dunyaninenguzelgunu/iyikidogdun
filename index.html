@@ -23,7 +23,7 @@ const AYAR = {
   sarki_youtube: "https://www.youtube.com/watch?v=i9OqUDR-Y9g",
   // ...ya da YouTube yerine mp3 kullanmak istersen dosyayı index.html'in yanına koyup adını yaz (ör. "sarki.mp3")
   sarki_dosya: "",
-  tanisma_tarihi: "2022-02-17T00:00:00",  // Tanıştığınız tarih (YYYY-AA-GGTSS:DD:SS)
+  tanisma_tarihi: "2022-02-17T15:13:00",  // Tanıştığınız tarih (YYYY-AA-GGTSS:DD:SS)
   siir: `Aşinâydık, yâr olduk; ne acâib bir kudret,
 Tek nazarla görmedim seni, dilimde kaldı hasret.
 İki cihân arasında yanar gönül, ey nâzenîn sûret,
@@ -102,9 +102,11 @@ seni çok seviyorum iyi ki varsın iyi ki tanıdım seni iyi ki atisim oldun. 29
   #lb .sayi{position:absolute;bottom:18px;opacity:.7;font-size:.9rem}
 
   /* Şarkı bildirimi */
-  #sarkiBilgi{position:fixed;bottom:86px;right:20px;z-index:60;background:rgba(255,255,255,.12);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2);padding:10px 16px;border-radius:14px;font-size:.85rem;opacity:0;transform:translateY(10px);transition:all .6s;pointer-events:none}
-  #sarkiBilgi.goster{opacity:1;transform:none}
-  #sarkiBilgi b{display:block;font-size:.95rem}
+  #sarkiBilgi{position:fixed;top:18px;left:50%;z-index:150;display:flex;align-items:center;gap:12px;background:rgba(42,10,31,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,143,184,.45);padding:12px 20px;border-radius:40px;font-size:.8rem;box-shadow:0 10px 30px rgba(0,0,0,.4);opacity:0;transform:translate(-50%,-30px);transition:all .7s;pointer-events:none;white-space:nowrap;max-width:calc(100vw - 32px)}
+  #sarkiBilgi.goster{opacity:1;transform:translate(-50%,0)}
+  #sarkiBilgi .nota{font-size:1.6rem;animation:nabiz 1.2s infinite}
+  #sarkiBilgi b{display:block;font-size:1rem;color:#fff}
+  #sarkiBilgi span{opacity:.75}
 
   .tarih{margin-top:10px;font-size:.85rem;letter-spacing:4px;text-transform:uppercase;opacity:.6;text-align:center}
   .pasta-yazi{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-family:'Dancing Script',cursive;font-size:2.4rem;font-weight:700;color:#b52a6e;z-index:2}
@@ -191,7 +193,7 @@ seni çok seviyorum iyi ki varsın iyi ki tanıdım seni iyi ki atisim oldun. 29
   <button class="sonraki" onclick="lbGit(1)" aria-label="Sonraki">›</button>
   <div class="sayi" id="lbSayi"></div>
 </div>
-<div id="sarkiBilgi">♪ Şimdi çalıyor<b>Kalpsiz Bir Serseri — Simge</b></div>
+<div id="sarkiBilgi"><div class="nota">🎵</div><div><span>Şimdi çalıyor</span><b>Kalpsiz Bir Serseri — Simge</b></div></div>
 
 <section class="gorun">
   <h2>Bir dilek tut ve mumları üfle 🎂</h2>
@@ -257,7 +259,8 @@ if (ytId){
   window.onYouTubeIframeAPIReady = () => {
     ytPlayer = new YT.Player('yt', {width:1, height:1, videoId:ytId,
       playerVars:{autoplay:0, loop:1, playlist:ytId, controls:0, playsinline:1},
-      events:{onReady:() => { ytHazir = true; ytPlayer.setVolume(70); if (calsin) muzikCal(); }}});
+      events:{onReady:() => { ytHazir = true; ytPlayer.setVolume(70); if (calsin) muzikCal(); },
+              onStateChange:e => { if (e.data === YT.PlayerState.PLAYING) sarkiBildir(); }}});
   };
 } else if (AYAR.sarki_dosya){
   ses = new Audio(AYAR.sarki_dosya); ses.loop = true; ses.volume = .7;
@@ -265,9 +268,16 @@ if (ytId){
 function muzikCal(){
   if (ytPlayer && ytHazir) ytPlayer.playVideo(); else if (ses) ses.play().catch(()=>{}); else return;
   caliyor = true; document.getElementById('muzikBtn').classList.add('caliyor');
-  const bilgi = document.getElementById('sarkiBilgi');
-  bilgi.classList.add('goster'); clearTimeout(bilgi.t); bilgi.t = setTimeout(() => bilgi.classList.remove('goster'), 4500);
 }
+// Şarkı gerçekten çalmaya başladığında (ilk seferde) üstte bildirim göster
+let bildirildi = false;
+function sarkiBildir(){
+  if (bildirildi) return; bildirildi = true;
+  const bilgi = document.getElementById('sarkiBilgi');
+  setTimeout(() => bilgi.classList.add('goster'), 800);
+  setTimeout(() => bilgi.classList.remove('goster'), 8000);
+}
+if (ses) ses.addEventListener('playing', sarkiBildir);
 function muzikDurdur(){
   if (ytPlayer && ytHazir) ytPlayer.pauseVideo(); else if (ses) ses.pause();
   caliyor = false; document.getElementById('muzikBtn').classList.remove('caliyor');
