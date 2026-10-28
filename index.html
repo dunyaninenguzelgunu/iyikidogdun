@@ -3,7 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>İyi ki Doğdun ❤️</title>
+<title>İyi ki Doğdun Atiyem ❤️</title>
+<meta name="description" content="Dünyanın en güzel günü alarmı 🚨 Sana küçük bir sürprizim var...">
+<meta property="og:title" content="İyi ki Doğdun Atiyem ❤️">
+<meta property="og:description" content="Dünyanın en güzel günü alarmı 🚨 Sana küçük bir sürprizim var...">
+<meta property="og:image" content="https://dunyaninenguzelgunu.github.io/iyikidogdun/fotograflar/foto28.jpg">
+<meta property="og:url" content="https://dunyaninenguzelgunu.github.io/iyikidogdun/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#2a0a1f">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <script>
 /* ============================================================
@@ -76,17 +84,30 @@ seni çok seviyorum iyi ki varsın iyi ki tanıdım seni iyi ki atisim oldun. 29
   #mektupYazi{font-size:1.05rem;line-height:1.75;white-space:pre-line;min-height:200px}
   .imza{text-align:right;margin-top:24px;font-family:'Dancing Script',cursive;font-size:1.5rem;opacity:0;transition:opacity 1s}
 
-  /* Nedenler */
-  .kartlar{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:960px;width:100%}
-  .kart{height:180px;perspective:1000px;cursor:pointer}
-  .ic{position:relative;width:100%;height:100%;transition:transform .7s;transform-style:preserve-3d}
-  .kart.acik .ic{transform:rotateY(180deg)}
-  .yuz{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center}
-  .on{background:linear-gradient(135deg,var(--pink),#b52a6e);font-size:3rem;box-shadow:0 10px 25px rgba(0,0,0,.3)}
-  .on small{position:absolute;bottom:14px;font-size:.8rem;opacity:.8}
-  .arka{background:var(--cream);color:#8a1d55;transform:rotateY(180deg);font-weight:600;font-size:1.05rem}
-
   /* Galeri */
+  .galeri img{cursor:zoom-in}
+  .galeri img.fazla{display:none}
+  .galeri.hepsi img.fazla{display:block}
+  #dahaFazla{margin-top:20px}
+  .galeri-not{margin:-24px 0 32px;opacity:.7;font-size:.95rem;text-align:center}
+
+  /* Büyütme */
+  #lb{position:fixed;inset:0;z-index:200;background:rgba(15,3,10,.94);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+  #lb.acik{opacity:1;visibility:visible}
+  #lb img{max-width:92vw;max-height:84vh;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+  #lb button{position:absolute;background:rgba(255,255,255,.12);border:none;color:#fff;width:48px;height:48px;border-radius:50%;font-size:1.4rem;cursor:pointer}
+  #lb .kapat{top:16px;right:16px}
+  #lb .onceki{left:12px;top:50%;transform:translateY(-50%)}
+  #lb .sonraki{right:12px;top:50%;transform:translateY(-50%)}
+  #lb .sayi{position:absolute;bottom:18px;opacity:.7;font-size:.9rem}
+
+  /* Şarkı bildirimi */
+  #sarkiBilgi{position:fixed;bottom:86px;right:20px;z-index:60;background:rgba(255,255,255,.12);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2);padding:10px 16px;border-radius:14px;font-size:.85rem;opacity:0;transform:translateY(10px);transition:all .6s;pointer-events:none}
+  #sarkiBilgi.goster{opacity:1;transform:none}
+  #sarkiBilgi b{display:block;font-size:.95rem}
+
+  .tarih{margin-top:10px;font-size:.85rem;letter-spacing:4px;text-transform:uppercase;opacity:.6;text-align:center}
+  .pasta-yazi{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-family:'Dancing Script',cursive;font-size:2.4rem;font-weight:700;color:#b52a6e;z-index:2}
   .galeri{columns:3 240px;column-gap:16px;max-width:1000px;width:100%}
   .galeri img{width:100%;margin-bottom:16px;border-radius:14px;border:5px solid #fff;box-shadow:0 10px 25px rgba(0,0,0,.4);transition:transform .3s;break-inside:avoid}
   .galeri img:nth-child(odd){transform:rotate(-2deg)}
@@ -132,6 +153,7 @@ seni çok seviyorum iyi ki varsın iyi ki tanıdım seni iyi ki atisim oldun. 29
 <section class="hero" id="giris">
   <h1>İyi ki Doğdun<span class="isim" data-isim></span></h1>
   <p class="alt">29. yaşın kutlu olsun canımın içi 🎂✨</p>
+  <p class="tarih">29 Ekim 2026</p>
   <a href="#zaman" class="asagi">👇</a>
 </section>
 
@@ -157,8 +179,19 @@ seni çok seviyorum iyi ki varsın iyi ki tanıdım seni iyi ki atisim oldun. 29
 
 <section class="gorun" id="galeriBolum">
   <h2>Bizim anılarımız 📸</h2>
+  <p class="galeri-not">Büyütmek için fotoğrafa dokun</p>
   <div class="galeri" id="galeri"></div>
+  <button class="btn" id="dahaFazla" onclick="hepsiniGoster()">Tüm anıları gör 💞</button>
 </section>
+
+<div id="lb" onclick="if(event.target===this)lbKapat()">
+  <img id="lbImg" alt="">
+  <button class="kapat" onclick="lbKapat()" aria-label="Kapat">✕</button>
+  <button class="onceki" onclick="lbGit(-1)" aria-label="Önceki">‹</button>
+  <button class="sonraki" onclick="lbGit(1)" aria-label="Sonraki">›</button>
+  <div class="sayi" id="lbSayi"></div>
+</div>
+<div id="sarkiBilgi">♪ Şimdi çalıyor<b>Kalpsiz Bir Serseri — Simge</b></div>
 
 <section class="gorun">
   <h2>Bir dilek tut ve mumları üfle 🎂</h2>
@@ -166,6 +199,7 @@ seni çok seviyorum iyi ki varsın iyi ki tanıdım seni iyi ki atisim oldun. 29
     <div class="mumlar"><div class="mum"><div class="alev"></div></div><div class="mum"><div class="alev"></div></div><div class="mum"><div class="alev"></div></div></div>
     <div class="kat k2"><div class="krema"></div></div>
     <div class="kat k1"><div class="krema"></div></div>
+    <div class="pasta-yazi">29</div>
   </div>
   <button class="btn" id="ufle" onclick="ufle()">Üfle 🌬️</button>
   <div id="sonMesaj" class="script">Seni Seviyorum <span data-isim></span> ❤️</div>
@@ -231,6 +265,8 @@ if (ytId){
 function muzikCal(){
   if (ytPlayer && ytHazir) ytPlayer.playVideo(); else if (ses) ses.play().catch(()=>{}); else return;
   caliyor = true; document.getElementById('muzikBtn').classList.add('caliyor');
+  const bilgi = document.getElementById('sarkiBilgi');
+  bilgi.classList.add('goster'); clearTimeout(bilgi.t); bilgi.t = setTimeout(() => bilgi.classList.remove('goster'), 4500);
 }
 function muzikDurdur(){
   if (ytPlayer && ytHazir) ytPlayer.pauseVideo(); else if (ses) ses.pause();
@@ -267,12 +303,43 @@ function mektubuYaz(){
   })();
 }
 
-// Galeri (bulunamayan fotoğraflar gizlenir)
+// Galeri (bulunamayan fotoğraflar gizlenir; ilk 18'i gösterilir, gerisi butonla açılır)
 const galeri = document.getElementById('galeri');
-AYAR.fotograflar.forEach(src => {
+const ILK = 18;
+if (AYAR.fotograflar.length <= ILK) document.getElementById('dahaFazla').style.display = 'none';
+function hepsiniGoster(){
+  galeri.classList.add('hepsi');
+  document.getElementById('dahaFazla').style.display = 'none';
+}
+AYAR.fotograflar.forEach((src, i) => {
   const img = new Image(); img.loading = 'lazy'; img.src = src; img.alt = '';
+  if (i >= ILK) img.classList.add('fazla');
+  img.onclick = () => lbAc(img);
   img.onerror = () => { img.remove(); if (!galeri.children.length) document.getElementById('galeriBolum').style.display = 'none'; };
   galeri.appendChild(img);
+});
+
+// Fotoğraf büyütme (oklar, klavye ve kaydırma ile gezinme)
+let lbIndex = 0;
+const lbFotolar = () => [...galeri.querySelectorAll('img')];
+function lbGoster(){
+  const f = lbFotolar();
+  document.getElementById('lbImg').src = f[lbIndex].src;
+  document.getElementById('lbSayi').textContent = (lbIndex + 1) + ' / ' + f.length;
+}
+function lbAc(img){ lbIndex = lbFotolar().indexOf(img); lbGoster(); document.getElementById('lb').classList.add('acik'); }
+function lbKapat(){ document.getElementById('lb').classList.remove('acik'); }
+function lbGit(y){ const n = lbFotolar().length; lbIndex = (lbIndex + y + n) % n; lbGoster(); }
+addEventListener('keydown', e => {
+  if (!document.getElementById('lb').classList.contains('acik')) return;
+  if (e.key === 'Escape') lbKapat(); else if (e.key === 'ArrowLeft') lbGit(-1); else if (e.key === 'ArrowRight') lbGit(1);
+});
+let dokunX = null;
+document.getElementById('lb').addEventListener('touchstart', e => { dokunX = e.touches[0].clientX; }, {passive:true});
+document.getElementById('lb').addEventListener('touchend', e => {
+  if (dokunX === null) return;
+  const fark = e.changedTouches[0].clientX - dokunX; dokunX = null;
+  if (Math.abs(fark) > 50) lbGit(fark < 0 ? 1 : -1);
 });
 
 // Mumları üfle
