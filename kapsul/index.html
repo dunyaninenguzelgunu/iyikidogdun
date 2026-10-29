@@ -23,8 +23,6 @@
      yazabilirsin (zorunlu değil).
    • Doğum günü kapsülleri, o yılın 29 Ekim'inde saat 00:00'da
      kendiliğinden açılır. Öncesinde 🔒 kilitli görünür.
-   • "…olduğunda aç" mektupları her zaman açıktır; içeriği boş
-     olanlar sitede görünmez.
    • Her şeyi kilitsiz görmek için: .../kapsul/?onizleme
    ============================================================ */
 const KAPSUL = {
@@ -32,9 +30,6 @@ const KAPSUL = {
   dogum_yili: 1997,
   dogum_ayi: 10,
   dogum_gunu: 29,
-
-  // 💓 Kendi kalp atışının kaydı (telefonu göğsüne bastırıp kaydet). Ör: "kayitlar/kalp-atisi.m4a"
-  kalp_atisi: "",
 
   dogum_gunleri: [
     { yas: 29, baslik: "İlk kapsül",   link: "../", yazi: "Her şeyin başladığı gün. 🎂" },
@@ -49,15 +44,6 @@ const KAPSUL = {
     { yas: 38, baslik: "38. yaşın",    dosya: "", yazi: "" },
     { yas: 39, baslik: "39. yaşın",    dosya: "", yazi: "" },
     { yas: 40, baslik: "40. yaşın",    dosya: "", yazi: "" }
-  ],
-
-  acildiginda: [
-    { emoji: "🥺", baslik: "Beni özlediğinde aç",          dosya: "", yazi: "" },
-    { emoji: "🌧️", baslik: "Çok üzgün olduğunda aç",       dosya: "", yazi: "" },
-    { emoji: "🌙", baslik: "Uyuyamadığında aç",            dosya: "", yazi: "" },
-    { emoji: "🫂", baslik: "Kendinden şüphe ettiğinde aç", dosya: "", yazi: "" },
-    { emoji: "☀️", baslik: "Çok mutlu olduğunda aç",       dosya: "", yazi: "" },
-    { emoji: "🏆", baslik: "Bir şeyi başardığında aç",     dosya: "", yazi: "" }
   ],
 
   // Kapsülün açıldığı ama içine kayıt konmamış bir yıl olursa görünecek yazı
@@ -77,17 +63,6 @@ const KAPSUL = {
   section{padding:70px 16px;max-width:1040px;margin:0 auto}
   h2{font-size:clamp(2.2rem,6vw,3.4rem);text-align:center;color:var(--pink2);margin-bottom:10px}
   .alt-baslik{text-align:center;opacity:.75;margin-bottom:40px;font-size:.98rem}
-
-  /* Giriş: kalp atışı */
-  #intro{position:fixed;inset:0;z-index:200;background:radial-gradient(circle at 50% 45%,#3a0c2a,#0b0207 75%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:16px;text-align:center;transition:opacity 1.2s,visibility 1.2s}
-  #intro.gizli{opacity:0;visibility:hidden}
-  #ekg{width:min(640px,100%);height:150px}
-  #intro .soz{font-size:clamp(1.05rem,3.5vw,1.3rem);opacity:0;transition:opacity 1.5s;max-width:440px;line-height:1.6}
-  #intro .soz.goster{opacity:.92}
-  #intro .btn{opacity:0;transition:opacity 1.5s .6s}
-  #intro .btn.goster{opacity:1}
-  .btn{background:linear-gradient(135deg,var(--pink),#ff7a59);border:none;color:#fff;font-family:inherit;font-size:1.05rem;font-weight:600;padding:15px 34px;border-radius:50px;cursor:pointer;box-shadow:0 10px 30px rgba(255,77,141,.45);transition:transform .2s}
-  .btn:hover{transform:translateY(-3px) scale(1.03)}
 
   /* Hero */
   .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
@@ -124,19 +99,6 @@ const KAPSUL = {
   @keyframes salla{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
   @keyframes nabiz{50%{transform:scale(1.03)}}
 
-  /* Olduğunda aç */
-  .zarflar{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
-  .zarf{display:flex;align-items:center;gap:16px;background:var(--cream);color:#5a1240;border:none;border-radius:16px;padding:20px 18px;cursor:pointer;text-align:left;font-family:inherit;font-size:1rem;font-weight:600;box-shadow:0 14px 30px rgba(0,0,0,.35);transition:transform .25s;position:relative}
-  .zarf:hover{transform:translateY(-4px) rotate(-.6deg)}
-  .zarf .e{font-size:2rem}
-  .zarf.bos{opacity:.45}
-  .zarf.bos::after{content:"kayıt bekleniyor";position:absolute;bottom:6px;right:12px;font-size:.66rem;font-weight:400;opacity:.8}
-
-  /* Kalbimi dinle */
-  #kalpBolum{text-align:center;display:none}
-  #kalpBtn{width:130px;height:130px;border-radius:50%;border:none;background:radial-gradient(circle at 40% 35%,#ff7aa8,#c2185b);font-size:3.4rem;cursor:pointer;box-shadow:0 0 0 0 rgba(255,77,141,.6);animation:atis 1.1s infinite}
-  @keyframes atis{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,77,141,.55)}14%{transform:scale(1.1)}28%{transform:scale(1)}42%{transform:scale(1.08)}70%{transform:scale(1);box-shadow:0 0 0 30px rgba(255,77,141,0)}100%{transform:scale(1)}}
-
   /* Oynatıcı penceresi */
   #pencere{position:fixed;inset:0;z-index:250;background:rgba(10,2,7,.92);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
   #pencere.acik{opacity:1;visibility:visible}
@@ -148,7 +110,7 @@ const KAPSUL = {
   .kutu audio{width:100%;margin:10px 0}
   .kutu .not{margin-top:18px;line-height:1.75;white-space:pre-line;font-size:1.02rem;opacity:.95}
   .kutu .kapat{position:absolute;top:12px;right:12px;width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.1);color:#fff;font-size:1.2rem;cursor:pointer}
-  .ses-gorsel{font-size:4rem;margin:6px 0 4px;animation:atis 1.1s infinite;display:inline-block}
+  .ses-gorsel{font-size:4rem;margin:6px 0 4px;animation:nabiz 1.2s infinite;display:inline-block}
 
   /* Bildirim */
   #bildirim{position:fixed;left:50%;bottom:24px;z-index:260;transform:translate(-50%,40px);opacity:0;transition:all .45s;background:rgba(42,10,31,.92);border:1px solid rgba(255,143,184,.45);padding:12px 20px;border-radius:30px;font-size:.92rem;max-width:calc(100vw - 32px);text-align:center;pointer-events:none}
@@ -165,12 +127,6 @@ const KAPSUL = {
 <canvas id="yildiz"></canvas>
 <canvas id="confetti"></canvas>
 <div id="onizlemeBant">ÖNİZLEME MODU — tüm kapsüller kilitsiz görünüyor (Atiye bu modu görmez)</div>
-
-<div id="intro">
-  <canvas id="ekg"></canvas>
-  <p class="soz" id="introSoz">Sana yıllar boyunca açılacak bir kutu bıraktım...</p>
-  <button class="btn" id="introBtn" onclick="basla()">Kapsülü aç ⏳</button>
-</div>
 
 <main>
   <section class="hero">
@@ -194,18 +150,6 @@ const KAPSUL = {
     <h2>Doğum günü kapsülleri</h2>
     <p class="alt-baslik">Her biri o yılın 29 Ekim'inde kendiliğinden açılır. Erken açmaya çalışma, sabret 💗</p>
     <div class="kapsuller" id="kapsuller"></div>
-  </section>
-
-  <section id="zarfBolum" class="gorun">
-    <h2>…olduğunda aç</h2>
-    <p class="alt-baslik">Bunlar hiç kilitlenmez. Ne zaman ihtiyacın olursa buradalar.</p>
-    <div class="zarflar" id="zarflar"></div>
-  </section>
-
-  <section id="kalpBolum" class="gorun">
-    <h2>Kalbimi dinle</h2>
-    <p class="alt-baslik">Bu ses, senin için atan kalbin sesi.</p>
-    <button id="kalpBtn" onclick="kalbiCal()" aria-label="Kalp atışını dinle">❤️</button>
   </section>
 </main>
 
@@ -231,7 +175,6 @@ const AYLAR = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağus
 const tarihYaz = d => `${d.getDate()} ${AYLAR[d.getMonth()]} ${d.getFullYear()}`;
 const acilisTarihi = yas => new Date(KAPSUL.dogum_yili + yas, KAPSUL.dogum_ayi - 1, KAPSUL.dogum_gunu);
 const ayniGun = (a, b) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
-const icerikVar = k => !!(k.dosya || k.yazi || k.link);
 const videoMu = f => /\.(mp4|webm|m4v|mov)$/i.test(f);
 
 // Arka plan yıldızları
@@ -271,61 +214,6 @@ function konfetiCiz(){
 boyut(); addEventListener('resize', boyut);
 requestAnimationFrame(yildizCiz); konfetiCiz();
 
-// Giriş: EKG çizgisi (kalp atışı), birkaç atıştan sonra kalp şekline döner
-const ec = document.getElementById('ekg'), ex = ec.getContext('2d');
-function ekgBoyut(){ const o = devicePixelRatio || 1; ec.width = ec.clientWidth * o; ec.height = ec.clientHeight * o; ex.setTransform(o, 0, 0, o, 0, 0); }
-ekgBoyut(); addEventListener('resize', ekgBoyut);
-function ekgDeger(f){ // f: bir atış içindeki konum (0..1) -> yükseklik (-1..1)
-  if (f < .10) return Math.sin(f / .10 * Math.PI) * .12;
-  if (f < .16) return 0;
-  if (f < .19) return -(f - .16) / .03 * .18;
-  if (f < .23) return -.18 + (f - .19) / .04 * 1.18;
-  if (f < .27) return 1 - (f - .23) / .04 * 1.38;
-  if (f < .30) return -.38 + (f - .27) / .03 * .38;
-  if (f < .45) return 0;
-  if (f < .62) return Math.sin((f - .45) / .17 * Math.PI) * .22;
-  return 0;
-}
-let ekgBasla = null, introBitti = false;
-function ekgCiz(t){
-  if (introBitti) return;
-  if (ekgBasla === null) ekgBasla = t;
-  const w = ec.clientWidth, h = ec.clientHeight, gecen = (t - ekgBasla) / 1000;
-  ex.clearRect(0, 0, w, h);
-  const kalpGecis = Math.min(1, Math.max(0, (gecen - 4.2) / 1.6)); // 4.2 sn sonra kalbe dönüş
-  const yol = Math.min(1, gecen / 3.2); // çizginin ekrana yayılması
-  ex.lineWidth = 2.4; ex.strokeStyle = '#ff6fa3'; ex.shadowColor = '#ff4d8d'; ex.shadowBlur = 14;
-  ex.beginPath();
-  const N = 400;
-  for (let i = 0; i <= N * yol; i++){
-    const u = i / N;
-    // EKG noktası
-    const ekX = u * w, ekY = h / 2 - ekgDeger((u * 3) % 1) * h * .42;
-    // Kalp noktası
-    const a = u * Math.PI * 2, s = Math.min(w, h * 1.6) / 38;
-    const kX = w / 2 + 16 * Math.pow(Math.sin(a), 3) * s * .9;
-    const kY = h / 2 - (13 * Math.cos(a) - 5 * Math.cos(2 * a) - 2 * Math.cos(3 * a) - Math.cos(4 * a)) * s * .42;
-    const e = kalpGecis * kalpGecis * (3 - 2 * kalpGecis);
-    const x = ekX + (kX - ekX) * e, y = ekY + (kY - ekY) * e;
-    i ? ex.lineTo(x, y) : ex.moveTo(x, y);
-  }
-  ex.stroke();
-  if (gecen > 5.8) { document.getElementById('introSoz').classList.add('goster'); document.getElementById('introBtn').classList.add('goster'); }
-  requestAnimationFrame(ekgCiz);
-}
-requestAnimationFrame(ekgCiz);
-
-let kalpSes = null;
-if (KAPSUL.kalp_atisi){ kalpSes = new Audio(KAPSUL.kalp_atisi); document.getElementById('kalpBolum').style.display = 'block'; }
-function kalbiCal(){ if (!kalpSes) return; kalpSes.currentTime = 0; kalpSes.play().catch(() => {}); }
-
-function basla(){
-  introBitti = true;
-  document.getElementById('intro').classList.add('gizli');
-  kalbiCal();
-  if (bugunAcilan) setTimeout(() => konfeti(260), 600);
-}
-
 // Doğum günü kapsülleri
 const simdi = new Date();
 let bugunAcilan = null;
@@ -350,7 +238,7 @@ KAPSUL.dogum_gunleri.forEach(k => {
   };
   kapsulKutu.appendChild(el);
 });
-if (bugunAcilan) document.getElementById('bugunBant').classList.add('goster');
+if (bugunAcilan){ document.getElementById('bugunBant').classList.add('goster'); setTimeout(() => konfeti(260), 700); }
 
 // Bir sonraki kapsüle geri sayım
 const sonraki = KAPSUL.dogum_gunleri.map(k => ({k, t: acilisTarihi(k.yas)})).filter(x => x.t > simdi).sort((a, b) => a.t - b.t)[0];
@@ -366,20 +254,6 @@ if (sonraki){
   };
   gs(); setInterval(gs, 1000);
 } else document.getElementById('geriSayim').style.display = 'none';
-
-// "...olduğunda aç" mektupları
-const zarfKutu = document.getElementById('zarflar');
-const gorunenZarflar = KAPSUL.acildiginda.filter(z => ONIZLEME || icerikVar(z));
-if (!gorunenZarflar.length) document.getElementById('zarfBolum').style.display = 'none';
-gorunenZarflar.forEach(z => {
-  const el = document.createElement('button');
-  el.className = 'zarf' + (icerikVar(z) ? '' : ' bos');
-  el.innerHTML = '<span class="e"></span><span class="b"></span>';
-  el.querySelector('.e').textContent = z.emoji;
-  el.querySelector('.b').textContent = z.baslik;
-  el.onclick = () => pencereAc(z.baslik, '', z.dosya, z.yazi || (z.dosya ? '' : '(Bu mektubun kaydı henüz eklenmedi)'));
-  zarfKutu.appendChild(el);
-});
 
 // Oynatıcı penceresi (video ya da ses)
 function pencereAc(baslik, tarih, dosya, yazi){
@@ -397,7 +271,6 @@ function pencereAc(baslik, tarih, dosya, yazi){
       m.appendChild(a); a.play().catch(() => {});
     }
   }
-  if (kalpSes) kalpSes.pause();
   document.getElementById('pencere').classList.add('acik');
   konfeti(120);
 }
