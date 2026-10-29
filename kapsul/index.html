@@ -24,6 +24,7 @@
    • Doğum günü kapsülleri, o yılın 29 Ekim'inde saat 00:00'da
      kendiliğinden açılır. Öncesinde 🔒 kilitli görünür.
    • Her şeyi kilitsiz görmek için: .../kapsul/?onizleme
+     (önizlemede giden bildirimler "🧪 TEST" diye işaretlenir)
    ============================================================ */
 const KAPSUL = {
   isim: "Atiye",
@@ -32,7 +33,6 @@ const KAPSUL = {
   dogum_gunu: 29,
 
   dogum_gunleri: [
-    { yas: 29, baslik: "İlk kapsül",   link: "../", yazi: "Her şeyin başladığı gün. 🎂" },
     { yas: 30, baslik: "30. yaşın",    dosya: "", yazi: "" },
     { yas: 31, baslik: "31. yaşın",    dosya: "", yazi: "" },
     { yas: 32, baslik: "32. yaşın",    dosya: "", yazi: "" },
@@ -45,6 +45,17 @@ const KAPSUL = {
     { yas: 39, baslik: "39. yaşın",    dosya: "", yazi: "" },
     { yas: 40, baslik: "40. yaşın",    dosya: "", yazi: "" }
   ],
+
+  // 👣 İZ: Atiye sayfaya girince / kapsülü açınca / kaydı izleyince sana haber gelir.
+  //  1) Telefonuna "ntfy" uygulamasını kur (App Store / Google Play, ücretsiz, hesap gerekmez)
+  //  2) Uygulamada "+" → aşağıdaki konu adını yaz → abone ol. Bildirimler oraya düşer.
+  //  3) (İsteğe bağlı, kalıcı kayıt) Bir Google Form yap, linkini ve alan kimliğini aşağıya yaz;
+  //     her olay Google E-Tablo'ya da satır olarak işlenir.
+  iz: {
+    ntfy_konu: "atiye-kapsul-5dd42efa37aa20bc",
+    google_form: "",        // ör: "https://docs.google.com/forms/d/e/XXXXXXXX/formResponse"
+    google_form_alan: ""    // ör: "entry.123456789"
+  },
 
   // Kapsülün açıldığı ama içine kayıt konmamış bir yıl olursa görünecek yazı
   bos_mesaj: "Bu yılın mesajı kelimelere sığmadı... Ama bil ki bugün de seni düşünüyorum. ❤️"
@@ -67,7 +78,8 @@ const KAPSUL = {
   /* Hero */
   .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
   .hero .ust{letter-spacing:6px;text-transform:uppercase;font-size:.8rem;opacity:.6}
-  .hero h1{font-size:clamp(3.2rem,12vw,7rem);line-height:1.05;margin:10px 0 6px;background:linear-gradient(90deg,#fff,var(--pink2),var(--gold),#fff);background-size:300%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:parla 7s linear infinite}
+  .hero h1{font-size:clamp(2.6rem,10vw,5.6rem);line-height:1.1;margin:10px 0 6px;background:linear-gradient(90deg,#fff,var(--pink2),var(--gold),#fff);background-size:300%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:parla 7s linear infinite}
+  .hero h1 span{display:block;font-size:.8em}
   @keyframes parla{to{background-position:300%}}
   .hero .icin{font-family:'Dancing Script',cursive;font-size:clamp(1.8rem,6vw,2.6rem);color:var(--pink2)}
   .geri-sayim{margin-top:44px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:22px;padding:22px 20px;width:min(520px,100%)}
@@ -131,7 +143,7 @@ const KAPSUL = {
 <main>
   <section class="hero">
     <div class="ust">Zaman Kapsülü</div>
-    <h1>Her yıl, yeniden</h1>
+    <h1>Her sene<span>dünyanın en güzel günü</span></h1>
     <div class="icin">— <span data-isim></span> için —</div>
     <div id="bugunBant">🎉 Bugün yeni bir kapsül açıldı! Aşağıda seni bekliyor.</div>
     <div class="geri-sayim" id="geriSayim">
@@ -233,8 +245,8 @@ KAPSUL.dogum_gunleri.forEach(k => {
       el.classList.remove('salla'); void el.offsetWidth; el.classList.add('salla');
       return bildir(`Sabır 💗 Bu kapsül ${tarihYaz(t)}'te açılacak.`);
     }
-    if (k.link && !k.dosya) return location.href = k.link;
-    pencereAc(k.baslik || `${k.yas}. yaşın`, tarihYaz(t), k.dosya, k.yazi || (k.dosya ? '' : KAPSUL.bos_mesaj));
+    izBirak(`🎁 ${k.yas}. yaş kapsülünü AÇTI`, k.dosya ? '' : '(içinde kayıt yoktu, yedek mesajı gördü)');
+    pencereAc(k.baslik || `${k.yas}. yaşın`, tarihYaz(t), k.dosya, k.yazi || (k.dosya ? '' : KAPSUL.bos_mesaj), k.yas);
   };
   kapsulKutu.appendChild(el);
 });
@@ -255,8 +267,33 @@ if (sonraki){
   gs(); setInterval(gs, 1000);
 } else document.getElementById('geriSayim').style.display = 'none';
 
+// 👣 İz bırakma: her olay ntfy bildirimi (+ varsa Google Form satırı) olarak gönderilir
+function izBirak(olay, ek = ''){
+  const iz = KAPSUL.iz || {};
+  const zaman = new Date().toLocaleString('tr-TR');
+  const cihaz = /iPhone|iPad/.test(navigator.userAgent) ? 'iPhone/iPad' : /Android/.test(navigator.userAgent) ? 'Android' : /Mac/.test(navigator.userAgent) ? 'Mac' : /Windows/.test(navigator.userAgent) ? 'Windows' : 'Diğer';
+  const baslik = (ONIZLEME ? '🧪 TEST — ' : '') + olay;
+  const govde = `${zaman} · ${cihaz}${ek ? '\n' + ek : ''}`;
+  if (iz.ntfy_konu){
+    const q = new URLSearchParams({title: baslik, tags: 'heart', priority: ONIZLEME ? '2' : '4'});
+    fetch(`https://ntfy.sh/${encodeURIComponent(iz.ntfy_konu)}?${q}`, {method: 'POST', body: govde, keepalive: true}).catch(() => {});
+  }
+  if (iz.google_form && iz.google_form_alan){
+    const f = new URLSearchParams({[iz.google_form_alan]: `${baslik} | ${govde}`});
+    fetch(iz.google_form, {method: 'POST', mode: 'no-cors', body: f, keepalive: true}).catch(() => {});
+  }
+}
+// Kayıt başladı / sonuna kadar izlendi bildirimleri (her kayıt için bir kez)
+const izlenen = new Set();
+function medyaIzle(el, yas){
+  el.addEventListener('play', () => { if (!izlenen.has('b' + yas)){ izlenen.add('b' + yas); izBirak(`▶️ ${yas}. yaş kaydını izlemeye BAŞLADI`); } });
+  el.addEventListener('ended', () => { if (!izlenen.has('s' + yas)){ izlenen.add('s' + yas); izBirak(`✅ ${yas}. yaş kaydını SONUNA KADAR izledi`); } });
+}
+const acikSayisi = KAPSUL.dogum_gunleri.filter(k => simdi >= acilisTarihi(k.yas)).length;
+izBirak('👀 Kapsül sayfasına girdi', bugunAcilan ? `Bugün ${bugunAcilan.yas}. yaş kapsülünün açılış günü` : `Açık kapsül sayısı: ${acikSayisi}`);
+
 // Oynatıcı penceresi (video ya da ses)
-function pencereAc(baslik, tarih, dosya, yazi){
+function pencereAc(baslik, tarih, dosya, yazi, yas){
   document.getElementById('pBaslik').textContent = baslik;
   document.getElementById('pTarih').textContent = tarih;
   document.getElementById('pNot').textContent = yazi || '';
@@ -264,11 +301,11 @@ function pencereAc(baslik, tarih, dosya, yazi){
   if (dosya){
     if (videoMu(dosya)){
       const v = document.createElement('video'); v.src = dosya; v.controls = true; v.playsInline = true; v.preload = 'metadata';
-      m.appendChild(v); v.play().catch(() => {});
+      m.appendChild(v); medyaIzle(v, yas); v.play().catch(() => {});
     } else {
       m.innerHTML = '<div class="ses-gorsel">❤️</div>';
       const a = document.createElement('audio'); a.src = dosya; a.controls = true;
-      m.appendChild(a); a.play().catch(() => {});
+      m.appendChild(a); medyaIzle(a, yas); a.play().catch(() => {});
     }
   }
   document.getElementById('pencere').classList.add('acik');
